@@ -1,10 +1,10 @@
-from src.search.search import search_context
 from flask import Flask, request, jsonify
+from search import search_context
 
 app = Flask(__name__)
 
-@app.route('/api/search', methods=['POST'])
-def search():
+@app.route('/api/answer', methods=['POST'])
+def answer_question():
     data = request.get_json()
     question = data.get('question', '')
     

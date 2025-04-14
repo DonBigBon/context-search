@@ -1,8 +1,9 @@
-from embedder import model, clean_text
-from db import get_connection
+from src.context.context import search_context
+from src.embeddings.embedder import model, clean_text
+from src.db.db import get_connection
 import numpy as np
 
-THRESHOLD = 0.7 
+THRESHOLD = 0.7
 
 def search_context(query):
     query_embedding = model.encode([clean_text(query)])[0]
@@ -10,7 +11,7 @@ def search_context(query):
 
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute(f"""
+            cur.execute("""
                 SELECT content, 1 - (embedding <#> %s::vector) AS similarity
                 FROM context
                 ORDER BY embedding <#> %s::vector ASC

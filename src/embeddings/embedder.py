@@ -1,6 +1,8 @@
-from sentence_transformers import SentenceTransformer
-import fitz  # PyMuPDF
 import re
+import fitz
+from flask import Flask, request, jsonify
+from sentence_transformers import SentenceTransformer
+from src.context.context import search_context
 
 model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2')
 
@@ -17,3 +19,19 @@ def extract_paragraphs(pdf_path, chunk_size=512):
 
 def embed_paragraphs(paragraphs):
     return model.encode(paragraphs, convert_to_numpy=True)
+
+app = Flask(__name__)
+
+@app.route('/api/ask', methods=['POST'])
+def ask_question():
+    data = request.get_json()
+    question = data.get('question', '')
+    
+    if not question:
+        return jsonify({'error': 'Question is required'}), 400
+    
+    answer = search_context(question)
+    return jsonify({'answer': answer})
+
+if __name__ == "__main__":
+    app.run(debug=True)
