@@ -1,0 +1,8 @@
+transformers
+sentence-transformers
+pgvector
+psycopg2-binary
+python-dotenv
+PyMuPDF
+tqdm
+accelerate
