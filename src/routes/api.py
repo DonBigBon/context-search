@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from search import search_context
+from search.search import search_context
 
 app = Flask(__name__)
 

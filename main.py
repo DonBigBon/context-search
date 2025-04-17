@@ -11,8 +11,8 @@ def search():
     if not question:
         return jsonify({'error': 'Question is required'}), 400
     
-    answer = search_context(question)
-    return jsonify({'answer': answer})
+    answers = search_context(question)
+    return jsonify({'answers': answers})
 
 if __name__ == "__main__":
     app.run(debug=True)
